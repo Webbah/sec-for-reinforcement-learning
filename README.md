@@ -41,7 +41,8 @@ optuna_optimize_sqlite(ddpg_objective, study_name=STUDY_NAME, sampler=TPE_sample
 ```
 
 can be used to train DDPG agents.
-In the respective (OMG/GEM / util) config file can be adjusted weather a standard DDPG (``` env_wrapper='no_I_term'``) 
-or an SEC-DDPG (``` env_wrapper='past'``) should be trained.
+In the respective (OMG/GEM / util) config file can be adjusted weather a standard DDPG 
+(``` env_wrapper='no_I_term'```) 
+or an SEC-DDPG (``` env_wrapper='past'```) should be trained.
 The data is logged depending on the ```loglevel``` to the in ```meas_data_folder```defined folder.
 Be aware that the calculation can be time consuming.
