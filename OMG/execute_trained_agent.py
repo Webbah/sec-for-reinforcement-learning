@@ -77,7 +77,7 @@ def run_OMG_experiment(max_episode_steps=None):
 
     num_average = 1
     if max_episode_steps is None:
-        max_episode_steps_list = [1000]
+        max_episode_steps_list = [100000]
     else:
         max_episode_steps_list = [max_episode_steps]
 
@@ -333,6 +333,9 @@ def run_OMG_experiment(max_episode_steps=None):
             rew.gamma = 0
             return_sum_PI = 0.0
             rew_list_PI = []
+            action_PI_d = []
+            action_PI_q = []
+            action_PI_0 = []
             v_d_PI = []
             v_q_PI = []
             v_0_PI = []
@@ -354,6 +357,9 @@ def run_OMG_experiment(max_episode_steps=None):
                 act_PI = agent.act(obs_PI)
                 obs_PI, r_PI, done_PI, info_PI = env.step(act_PI)
                 rew_list_PI.append(r_PI)
+                action_PI_d.append(np.float64(act_PI[0]))
+                action_PI_q.append(np.float64(act_PI[1]))
+                action_PI_0.append(np.float64(act_PI[2]))
                 env.render()
                 return_sum_PI += r_PI
                 if r_PI == -1 and not limit_exceeded_in_test_PI:
@@ -390,6 +396,9 @@ def run_OMG_experiment(max_episode_steps=None):
                               "PI_Ki_c": ki_c,
                               "PI_Kp_v": kp_v,
                               "PI_Ki_v": ki_v,
+                              "PI_u_d": action_PI_d,
+                              "PI_u_q": action_PI_q,
+                              "PI_u_0": action_PI_0,
                               "DDPG_model_path": model_path,
                               "Return PI": (return_sum_PI / env.max_episode_steps + limit_exceeded_penalty_PI),
                               "Reward PI": rew_list_PI,
@@ -708,4 +717,4 @@ def run_OMG_experiment(max_episode_steps=None):
     # df.to_pickle("DDPG_study18_best_test_varianz.pkl")
     asd = 1
 
-#run_OMG_experiment()
+run_OMG_experiment()
