@@ -23,7 +23,7 @@ is used.
 
 The dynamics of the shown average model of an inverter and a standard LC filter 
 configuration (`L_f`, `C_f`), with inductor filter current `i_f`,
-voltage over the filter capacitor `vc` and output 
+voltage over the filter capacitor `v_c` and output 
 load current `i_load` can be linearly described as:
 
 <img src="docs/img/OMG_ODEs.png" width="30%">
