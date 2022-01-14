@@ -86,13 +86,8 @@ The [Gym Electric Motor toolbox](https://github.com/upb-lea/gym-electric-motor) 
 Like shown in the figure the plant is modeled in the rotation dq reference frame, too 
 (For more information see power grid example explanation).
 
-The dynamics of the plant can again be dscribed linearly by 
 
-<img src="docs/img/GEM_ODE.png" width="40%">
 
-Here, `omega` describes the angular speed of the motor, 
-multiplied with the magnetic flux (`psi`) resulting in the electromagnetic force (EMF) 
-and `p` the number of pol pairs.
 Again, the model can be described linearly in the state space:
 
 <img src="docs/img/GEM_StateSpace.png" width="30%">
@@ -105,7 +100,10 @@ The corresponding state-space matrices are
 
 <img src="docs/img/GEM_Matrix.png" width="40%">
 
-Above, `C` is the 2x2 identity matrix assuming that the all states are observable.
+Here, `omega` describes the angular speed of the motor, 
+multiplied with the magnetic flux (`psi`) resulting in the electromagnetic force (EMF) 
+and `p` the number of pol pairs.
+`C` is the 2x2 identity matrix assuming that the all states are measurable.
 Here, the disturbance `E` is dependent on the rotor speed - 
 which is chosen to be constant in the application.
 
