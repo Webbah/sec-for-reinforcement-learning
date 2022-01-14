@@ -16,7 +16,7 @@ The first exemplary use case to show the benefits of the SEC approach is an
 electrical power grid application.
 The [OpenModelica Microgrid Gym toolbox](https://github.com/upb-lea/openmodelica-microgrid-gym) 
 is used to model the control plant.
-The same setting as already used in [this paper](https://ieeexplore.ieee.org/document/9363170) 
+The same setting as in [this paper](https://ieeexplore.ieee.org/document/9363170) 
 is used. 
 
 ![](docs/img/OMG_controlled.svg)
