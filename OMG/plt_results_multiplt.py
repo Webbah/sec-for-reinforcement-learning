@@ -5,7 +5,7 @@ import pandas as pd
 
 from openmodelica_microgrid_gym.util import abc_to_dq0
 
-save_results = True
+save_results = False
 
 
 def plot_stored_OMG_reults(interval_x=None, interval_y=None):

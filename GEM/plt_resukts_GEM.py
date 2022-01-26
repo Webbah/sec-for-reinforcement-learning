@@ -7,8 +7,8 @@ save_results = False
 
 def plot_stored_GEM_reults(interval_x=None, interval_y=None):
     if interval_x is None:
-        interval_list_x = [0.499, 0.506]  # 1
-        #interval_list_x = [0, 1]
+        #interval_list_x = [0.499, 0.506]  # 1
+        interval_list_x = [0, 1]
         #interval_list_x = [0.299, 0.305] # 2
         #interval_list_x = [0.949, 0.953] # 3
 
