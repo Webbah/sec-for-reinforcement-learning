@@ -1,6 +1,6 @@
 # Steady-State Error Compensation for Reinforcement Learning Control
 
-[Read the Paper](https://arxiv.org) Link will follow when published
+[Read the Paper](https://arxiv.org/abs/2201.13331) Link will follow when published
 
 Reference tracking problems are common in power grids as well as in automotive applications, and the utilization 
 of RL controllers in such scenarios feature better performance than state-of-the-art methods during transients. 
@@ -120,11 +120,13 @@ Detailed informations can be found in the article
 Please cite it when using the provided code:
 
 ```
-@misc{weber2021,
-      title={Steady-State Error Compensation in Reference Tracking Problems with Reinforcement Learning Control}, 
+@misc{weber2022,
+      title={Steady-State Error Compensation in Reference Tracking and Disturbance Rejection Problems for Reinforcement Learning-Based Control}, 
       author={Daniel Weber and Maximilian Schenke and Oliver Wallscheid},
-      year={2022}
-}
+      year={2022},
+      eprint={2201.13331},
+      archivePrefix={arXiv},
+      primaryClass={eess.SY}
 ```
 
 ## Usage
