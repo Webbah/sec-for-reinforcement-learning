@@ -5,7 +5,7 @@ import pandas as pd
 
 from openmodelica_microgrid_gym.util import abc_to_dq0
 
-save_results = False
+save_results = True
 
 
 def plot_stored_OMG_reults(interval_x=None, interval_y=None):
@@ -17,6 +17,10 @@ def plot_stored_OMG_reults(interval_x=None, interval_y=None):
         interval_list_x = [2.5245,2.5275]   #3
         interval_list_x = [9.5072,9.509]   #4
 
+        interval_list_x = [2.5245,2.535]   #4
+
+        interval_list_x = [1.1548, 1.16]   #4
+
     else:
         interval_list_x = interval_x
 
@@ -25,6 +29,8 @@ def plot_stored_OMG_reults(interval_x=None, interval_y=None):
         interval_list_y = [-15, 205]    # testcase 2
         interval_list_y = [-30, 300]    # testcase 3
         interval_list_y = [-20, 220]    # testcase 4
+        interval_list_y = [-20, 185]    # testcase 4
+        #interval_list_y = [0, 300]    # testcase 4
     else:
         interval_list_y = interval_y
 
@@ -34,7 +40,7 @@ def plot_stored_OMG_reults(interval_x=None, interval_y=None):
 
     number_of_steps = '_100000steps'
 
-    df = pd.read_pickle(folder_name + '/new_pkls/PI' + number_of_steps)
+    df = pd.read_pickle(folder_name + '/PI' + number_of_steps)
 
     env_hist_PI = df['env_hist_PI']
     v_a_PI = env_hist_PI[0]['lc.capacitor1.v'].tolist()
@@ -62,7 +68,8 @@ def plot_stored_OMG_reults(interval_x=None, interval_y=None):
     kp_v = df['PI_Kp_v'][0]
     ki_v = df['PI_Ki_v'][0]
 
-    u_dq0_PI = abc_to_dq0(np.array([df['PI_u_d'][0], df['PI_u_q'][0], df['PI_u_0'][0]]), phase_PI[1:])
+    u_dq0_PI = abc_to_dq0(np.array([v_d_PI, v_q_PI, v_0_PI]), phase_PI[0:])
+    #u_dq0_PI = abc_to_dq0(np.array([df['PI_u_d'][0], df['PI_u_q'][0], df['PI_u_0'][0]]), phase_PI[1:])
 
     if v_dc is not None:
         u_d_PI = [sum(x*v_dc) for x in zip(u_dq0_PI[0].tolist())]
@@ -167,7 +174,7 @@ def plot_stored_OMG_reults(interval_x=None, interval_y=None):
 
     DDPG_reward_I = df_DDPG_I['Reward DDPG'][0]
 
-
+    """
     fig, axs = plt.subplots(4, 1)
     axs[0].plot(t_test, R_load_PI, 'g')
     axs[0].grid()
@@ -213,7 +220,7 @@ def plot_stored_OMG_reults(interval_x=None, interval_y=None):
     plt.ylabel('$R_\mathrm{load}\,/\,\mathrm{\Omega}$')
     plt.xlabel(r'$t\,/\,\mathrm{s}$')
     plt.show()
-
+    """
     params = {'backend': 'ps',
               'text.latex.preamble': [r'\usepackage{gensymb}'
                                       r'\usepackage{amsmath,amssymb,mathtools}'
@@ -232,16 +239,16 @@ def plot_stored_OMG_reults(interval_x=None, interval_y=None):
               }
     matplotlib.rcParams.update(params)
 
-    fig, axs = plt.subplots(4, 1)
+    fig, axs = plt.subplots(3, 1)
     axs[0].plot(t_test, v_d_DDPG_I, 'b', label='$\mathrm{SEC}$')
     axs[0].plot(t_test, v_q_DDPG_I, 'r')
     axs[0].plot(t_test, v_0_DDPG_I, 'g')
-    axs[0].plot(t_test, v_d_DDPG, '-.b', label='$\mathrm{DDPG}$')
-    axs[0].plot(t_test, v_q_DDPG, '-.r')
-    axs[0].plot(t_test, v_0_DDPG, '-.g')
-    axs[0].plot(t_test, v_d_PI, '--b', label='$\mathrm{PI}$')
-    axs[0].plot(t_test, v_q_PI, '--r')
-    axs[0].plot(t_test, v_0_PI, '--g')
+    axs[0].plot(t_test, v_d_DDPG, '--b', label='$\mathrm{DDPG}$')
+    axs[0].plot(t_test, v_q_DDPG, '--r')
+    axs[0].plot(t_test, v_0_DDPG, '--g')
+    #axs[0].plot(t_test, v_d_PI, 'b', label='$\mathrm{PI}$')
+    #axs[0].plot(t_test, v_q_PI, 'r')
+    #axs[0].plot(t_test, v_0_PI, 'g')
     axs[0].plot(t_test, v_d_ref, ':', color='gray', label='$v^*$', linewidth=2)
     axs[0].plot(t_test, v_d_ref0, ':', color='gray', linewidth=2)
     axs[0].grid()
@@ -257,58 +264,61 @@ def plot_stored_OMG_reults(interval_x=None, interval_y=None):
     axs[1].plot(t_test, i_d_DDPG_I, 'b', label='$i_\mathrm{d}$')
     axs[1].plot(t_test, i_q_DDPG_I, 'r', label='$i_\mathrm{q}$')
     axs[1].plot(t_test, i_0_DDPG_I, 'g', label='$i_\mathrm{0}$')
-    axs[1].plot(t_test, i_d_DDPG, '-.b')
-    axs[1].plot(t_test, i_q_DDPG, '-.r')
-    axs[1].plot(t_test, i_0_DDPG, '-.g')
-    axs[1].plot(t_test, i_d_PI, '--b')
-    axs[1].plot(t_test, i_q_PI, '--r')
-    axs[1].plot(t_test, i_0_PI, '--g')
+    axs[1].plot(t_test, i_d_DDPG, '--b')
+    axs[1].plot(t_test, i_q_DDPG, '--r')
+    axs[1].plot(t_test, i_0_DDPG, '--g')
+    #axs[1].plot(t_test, i_d_PI, 'b')
+    #axs[1].plot(t_test, i_q_PI, 'r')
+    #axs[1].plot(t_test, i_0_PI, 'g')
     axs[1].grid()
     axs[1].set_xlim(interval_list_x)
     axs[1].set_ylim([-2, 12]) # 2
     axs[1].set_ylim([-5, 10.5]) # 3
     axs[1].set_ylim([-2, 10.5]) # 4
+    axs[1].set_ylim([-2, 12]) # 4
     #axs[1].set_xlabel(r'$t\,/\,\mathrm{s}$')
     axs[1].tick_params(axis='x', colors='w')
     axs[1].set_ylabel("$i_{\mathrm{dq0}}\,/\,\mathrm{A}$")
     axs[1].tick_params(direction='in')
     fig.subplots_adjust(wspace=0, hspace=0.05)
 
+    """
     axs[2].plot(t_reward, u_d_DDPG_I, 'b')
     axs[2].plot(t_reward, u_q_DDPG_I, 'r')
     axs[2].plot(t_reward, u_0_DDPG_I, 'g')
     axs[2].plot(t_reward, u_d_DDPG, '-.b')
     axs[2].plot(t_reward, u_q_DDPG, '-.r')
     axs[2].plot(t_reward, u_0_DDPG, '-.g')
-    axs[2].plot(t_reward, u_d_PI, '--b')
-    axs[2].plot(t_reward, u_q_PI, '--r')
-    axs[2].plot(t_reward, u_0_PI, '--g')
+    axs[2].plot(t_test, u_d_PI, '--b')
+    axs[2].plot(t_test, u_q_PI, '--r')
+    axs[2].plot(t_test, u_0_PI, '--g')
     axs[2].grid()
     axs[2].set_xlim(interval_list_x)
-    axs[2].set_ylim([-0.15*300, 0.7*300]) # for testcase 2
-    axs[2].set_ylim([-0.2*300, 0.8*300]) # for testcase 3
-    axs[2].set_ylim([-0.15*300, 0.7*300]) # for testcase 4
+    #axs[2].set_ylim([-0.15*300, 0.7*300]) # for testcase 2
+    #axs[2].set_ylim([-0.2*300, 0.8*300]) # for testcase 3
+    #axs[2].set_ylim([-0.15*300, 0.7*300]) # for testcase 4
     axs[2].tick_params(axis='x', colors='w')
     #axs[2].set_ylabel("$u_{\mathrm{dq0}}\,/\, v_\mathrm{DC}\,/\,2$")
     axs[2].set_ylabel("$u_{\mathrm{}}\,/\, \mathrm{V}$")
     axs[2].tick_params(direction='in')
     fig.subplots_adjust(wspace=0, hspace=0.05)
+    """
 
-    axs[3].plot(t_test, R_load_PI, 'g')
-    axs[3].grid()
-    axs[3].set_xlim(interval_list_x)
+    axs[2].plot(t_test, R_load_PI, 'g')
+    axs[2].grid()
+    axs[2].set_xlim(interval_list_x)
     # axs[1].set_ylim(interval_list_y)
-    axs[3].set_xlabel(r'$t\,/\,\mathrm{s}$')
-    axs[3].set_ylabel('$R_\mathrm{load}\,/\,\mathrm{\Omega}$')
-    axs[3].tick_params(direction='in')
+    axs[2].set_xlabel(r'$t\,/\,\mathrm{s}$')
+    axs[2].set_ylabel('$R_\mathrm{load}\,/\,\mathrm{\Omega}$')
+    axs[2].tick_params(direction='in')
     fig.subplots_adjust(wspace=0, hspace=0.05)
 
     plt.show()
 
     if save_results:
-        fig.savefig(f'{folder_name}/OMG_DDPG_SECDDPG_PI_compare4.pgf')
-        fig.savefig(f'{folder_name}/OMG_DDPG_SECDDPG_PI_compare4.png')
-        fig.savefig(f'{folder_name}/OMG_DDPG_SECDDPG_PI_compare4.pdf')
+        fig.savefig(f'{folder_name}/OMG_DDPG_SEC_ppt_OW_SEC.pgf')
+        fig.savefig(f'{folder_name}/OMG_DDPG_SEC_ppt_OW_SEC.png')
+        fig.savefig(f'{folder_name}/OMG_DDPG_SEC_ppt_OW_SEC.pdf')
 
     plt.plot(t_reward, reward_PI, 'b', label=f'          PI: '
                                              f'{round(sum(reward_PI[int(interval_list_x[0] / ts):int(interval_list_x[1] / ts)]) / ((interval_list_x[1] - interval_list_x[0]) / ts), 4)}')
