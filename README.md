@@ -1,4 +1,4 @@
-# Steady-State Error Compensation for Reinforcement Learning Control
+# Steady-State Error Compensation for Reinforcement Learning-Based Control of Power Electronic Systems
 
 [Read the Paper](https://arxiv.org/abs/2201.13331) Link will follow when published
 
